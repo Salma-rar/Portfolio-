@@ -4,457 +4,832 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Salma Elhwary | Data Analyst</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-scroll-behavior:smooth;
+:root {
+  --bg: #0a0a0f;
+  --surface: #12121a;
+  --surface2: #1a1a28;
+  --accent: #b06fff;
+  --accent2: #ff6fb0;
+  --accent3: #6fefff;
+  --text: #f0eeff;
+  --muted: #8882aa;
+  --border: rgba(176,111,255,0.15);
 }
 
-body{
-font-family:'Poppins', sans-serif;
-background:linear-gradient(to bottom, #1a1a2e, #2d2d44);
-color:#fff;
-overflow-x:hidden;
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  cursor: none;
 }
 
-header{
-height:100vh;
-position:relative;
+/* Custom cursor */
+.cursor {
+  position: fixed;
+  width: 12px; height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+  mix-blend-mode: screen;
+}
+.cursor-ring {
+  position: fixed;
+  width: 38px; height: 38px;
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.18s ease, width 0.2s, height 0.2s, opacity 0.2s;
+  opacity: 0.5;
 }
 
-nav{
-display:flex;
-justify-content:space-between;
-padding:20px 60px;
-align-items:center;
+/* Background mesh */
+.bg-mesh {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 40% at 10% 20%, rgba(176,111,255,0.10) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 90% 80%, rgba(111,239,255,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 60% 10%, rgba(255,111,176,0.06) 0%, transparent 70%);
 }
 
-.logo{
-font-weight:700;
-font-size:22px;
-color:#ff79c6;
+/* Noise overlay */
+.noise {
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
-nav ul{
-display:flex;
-list-style:none;
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 60px;
+  backdrop-filter: blur(20px);
+  background: rgba(10,10,15,0.7);
+  border-bottom: 1px solid var(--border);
+}
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-weight: 800; font-size: 20px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+}
+.nav-links { display: flex; gap: 36px; list-style: none; }
+.nav-links a {
+  text-decoration: none; color: var(--muted);
+  font-size: 14px; font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.3s;
+  position: relative;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -3px; left: 0; right: 0;
+  height: 1px; background: var(--accent);
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s;
+}
+.nav-links a:hover { color: var(--text); }
+.nav-links a:hover::after { transform: scaleX(1); }
+
+/* ─── HERO ─── */
+#hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 120px 60px 80px;
+  position: relative; z-index: 2;
+}
+.hero-inner {
+  max-width: 900px;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(176,111,255,0.1);
+  border: 1px solid rgba(176,111,255,0.25);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 13px; color: var(--accent);
+  margin-bottom: 28px;
+  animation: fadeUp 0.7s ease both;
+}
+.hero-tag span { width:6px; height:6px; background:var(--accent); border-radius:50%; animation: pulse 1.5s infinite; }
+.hero-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(52px, 8vw, 96px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -3px;
+  animation: fadeUp 0.7s 0.1s ease both;
+}
+.hero-name .line2 {
+  display: block;
+  background: linear-gradient(135deg, var(--accent), var(--accent2) 50%, var(--accent3));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.hero-subtitle {
+  margin-top: 24px;
+  font-size: 18px; color: var(--muted); line-height: 1.7;
+  max-width: 560px;
+  animation: fadeUp 0.7s 0.2s ease both;
+}
+.hero-btns {
+  display: flex; gap: 14px; margin-top: 40px; flex-wrap: wrap;
+  animation: fadeUp 0.7s 0.3s ease both;
+}
+.btn-primary {
+  padding: 14px 30px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff; text-decoration: none;
+  border-radius: 100px; font-weight: 600; font-size: 14px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(176,111,255,0.3);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(176,111,255,0.4); }
+.btn-secondary {
+  padding: 14px 30px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text); text-decoration: none;
+  border-radius: 100px; font-weight: 500; font-size: 14px;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+.hero-socials {
+  display: flex; gap: 16px; margin-top: 36px;
+  animation: fadeUp 0.7s 0.4s ease both;
+}
+.social-icon {
+  width: 42px; height: 42px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted); text-decoration: none; font-size: 15px;
+  transition: all 0.2s;
+}
+.social-icon:hover { border-color: var(--accent); color: var(--accent); background: rgba(176,111,255,0.1); }
+
+/* floating stats */
+.hero-stats {
+  position: absolute; right: 60px; top: 50%;
+  transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 16px;
+  animation: fadeLeft 0.8s 0.5s ease both;
+}
+.stat-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 28px;
+  text-align: center;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.stat-box:hover { transform: translateX(-4px); border-color: var(--accent); }
+.stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 30px; font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* scroll indicator */
+.scroll-hint {
+  position: absolute; bottom: 36px; left: 60px;
+  display: flex; align-items: center; gap: 10px;
+  color: var(--muted); font-size: 12px; letter-spacing: 1px;
+  text-transform: uppercase; animation: fadeUp 1s 0.8s ease both;
+}
+.scroll-line {
+  width: 40px; height: 1px; background: var(--muted);
+  position: relative; overflow: hidden;
+}
+.scroll-line::after {
+  content: ''; position: absolute; left: -100%; top: 0;
+  width: 100%; height: 100%; background: var(--accent);
+  animation: scanLine 1.8s infinite;
 }
 
-nav ul li{
-margin-left:25px;
+/* ─── SECTIONS ─── */
+.section {
+  padding: 100px 60px;
+  position: relative; z-index: 2;
+  opacity: 0; transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.section.visible { opacity: 1; transform: translateY(0); }
+
+.section-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 12px;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 4vw, 48px); font-weight: 800;
+  letter-spacing: -1.5px; line-height: 1.1;
+  margin-bottom: 60px;
 }
 
-nav ul li a{
-text-decoration:none;
-color:#fff;
-transition:0.3s;
+/* ─── ABOUT ─── */
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;
+}
+.about-card {
+  background: var(--surface);
+  border: 1px solid var(--border); border-radius: 24px;
+  padding: 36px;
+}
+.about-text { line-height: 1.9; color: #c8c0e8; font-size: 15px; }
+.about-highlights { display: flex; flex-direction: column; gap: 16px; }
+.highlight-item {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 16px 20px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.highlight-item:hover { border-color: var(--accent); transform: translateX(4px); }
+.hi-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+.hi-icon.purple { background: rgba(176,111,255,0.15); color: var(--accent); }
+.hi-icon.pink { background: rgba(255,111,176,0.15); color: var(--accent2); }
+.hi-icon.cyan { background: rgba(111,239,255,0.15); color: var(--accent3); }
+.hi-title { font-weight: 600; font-size: 14px; }
+.hi-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* ─── SKILLS ─── */
+.skills-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px;
+}
+.skill-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+  padding: 24px 28px;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+.skill-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: 0 12px 40px rgba(176,111,255,0.12);
+}
+.skill-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.skill-name { font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 10px; }
+.skill-name i { color: var(--accent); }
+.skill-pct { font-family: 'Playfair Display', serif; font-size: 13px; color: var(--muted); }
+.skill-bar { height: 4px; background: rgba(255,255,255,0.06); border-radius: 99px; overflow: hidden; }
+.skill-fill {
+  height: 100%; border-radius: 99px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  width: 0; transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
 }
 
-nav ul li a:hover{
-color:#ff79c6;
+/* ─── PROJECTS ─── */
+.projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+
+.project-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 24px;
+  overflow: hidden;
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+}
+.project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+.project-card.featured { grid-column: 1 / -1; display: grid; grid-template-columns: 55% 1fr; }
+
+.project-img {
+  height: 220px; overflow: hidden;
+  background: var(--surface2);
+  position: relative;
+}
+.project-card.featured .project-img { height: 100%; min-height: 280px; }
+.project-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.4s;
+  filter: brightness(0.9);
+}
+.project-card:hover .project-img img { transform: scale(1.04); filter: brightness(1); }
+
+.project-img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px; color: var(--muted);
+  background: linear-gradient(135deg, var(--surface2), rgba(176,111,255,0.08));
 }
 
-.hero{
-text-align:center;
-margin-top:150px;
-opacity:0;
-transform: translateY(50px);
-transition:1s ease-out;
+.project-body { padding: 28px 32px; }
+.project-card.featured .project-body { display: flex; flex-direction: column; justify-content: center; }
+.project-tag {
+  display: inline-block; padding: 4px 12px;
+  background: rgba(176,111,255,0.12); border: 1px solid rgba(176,111,255,0.25);
+  border-radius: 100px; font-size: 11px; color: var(--accent);
+  font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.project-title {
+  font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700;
+  letter-spacing: -0.5px; line-height: 1.2; margin-bottom: 12px;
+}
+.project-desc { font-size: 14px; color: var(--muted); line-height: 1.75; margin-bottom: 20px; }
+.project-tools { display: flex; gap: 8px; flex-wrap: wrap; }
+.tool-pill {
+  padding: 5px 12px; background: var(--surface2);
+  border: 1px solid var(--border); border-radius: 100px;
+  font-size: 12px; color: var(--muted); font-weight: 500;
+}
+.project-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--accent); text-decoration: none; font-size: 13px; font-weight: 600;
+  margin-top: 18px; transition: gap 0.2s;
+}
+.project-link:hover { gap: 10px; }
+
+/* ─── EXPERIENCE ─── */
+.exp-timeline { display: flex; flex-direction: column; gap: 20px; max-width: 700px; }
+.exp-item {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
+  padding: 28px 32px;
+  display: grid; grid-template-columns: auto 1fr; gap: 20px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.exp-item:hover { border-color: var(--accent); transform: translateX(6px); }
+.exp-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent); margin-top: 7px; flex-shrink: 0;
+  box-shadow: 0 0 0 3px rgba(176,111,255,0.2);
+}
+.exp-role { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+.exp-org { color: var(--accent); font-size: 14px; margin-bottom: 4px; }
+.exp-date { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+.exp-desc { font-size: 14px; color: #a89dcc; line-height: 1.7; }
+
+/* ─── CONTACT ─── */
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 28px;
+}
+.contact-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 24px;
+  padding: 40px;
+}
+.contact-big { grid-column: 1 / -1; text-align: center; }
+.contact-headline {
+  font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 800;
+  letter-spacing: -2px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+.contact-sub { color: var(--muted); font-size: 16px; margin-bottom: 32px; }
+.contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.contact-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 24px;
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 14px; color: var(--text); text-decoration: none;
+  font-size: 14px; font-weight: 500;
+  transition: all 0.2s;
+}
+.contact-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(176,111,255,0.08); }
+.contact-btn i { font-size: 16px; }
+
+/* ─── FOOTER ─── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 30px 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative; z-index: 2;
+  color: var(--muted); font-size: 13px;
+}
+.footer-logo {
+  font-family: 'Playfair Display', serif; font-weight: 800; font-size: 16px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
 }
 
-.hero.show{
-opacity:1;
-transform: translateY(0);
-}
+/* ─── ANIMATIONS ─── */
+@keyframes fadeUp { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeLeft { from { opacity:0; transform:translateX(30px); } to { opacity:1; transform:translateX(0); } }
+@keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+@keyframes scanLine { 0% { left:-100%; } 100% { left:100%; } }
 
-.hero h1{
-font-size:48px;
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1100px) {
+  .hero-stats { position: relative; right: auto; top: auto; transform: none; flex-direction: row; margin-top: 40px; }
+  #hero { flex-direction: column; }
 }
-
-.hero span{
-color:#ff79c6;
+@media (max-width: 900px) {
+  nav { padding: 16px 24px; }
+  .nav-links { gap: 20px; }
+  #hero { padding: 100px 24px 60px; }
+  .section { padding: 70px 24px; }
+  .about-grid { grid-template-columns: 1fr; gap: 28px; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .project-card.featured { grid-template-columns: 1fr; }
+  .project-card.featured .project-img { height: 200px; }
+  .contact-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; gap: 10px; text-align: center; padding: 24px; }
+  .hero-stats { flex-direction: row; flex-wrap: wrap; }
 }
-
-.hero p{
-margin-top:10px;
-font-size:18px;
-color:#f5c7e7;
-}
-
-.hero-social{
-margin-top:20px;
-display:flex;
-justify-content:center;
-gap:20px;
-}
-
-.hero-social a{
-font-size:24px;
-color:#ff79c6;
-transition:0.3s;
-}
-
-.hero-social a:hover{
-color:#fff;
-transform:scale(1.2);
-}
-
-.btn{
-display:inline-block;
-margin-top:25px;
-padding:12px 30px;
-background:#ff79c6;
-color:#fff;
-text-decoration:none;
-border-radius:30px;
-font-weight:600;
-transition:0.3s;
-margin-right:10px;
-}
-
-.btn:hover{
-background:#e055a3;
-}
-
-section{
-padding:80px 10%;
-opacity:0;
-transform: translateY(50px);
-transition:1s ease-out;
-border-radius:15px;
-margin-bottom:40px;
-}
-
-section.show{
-opacity:1;
-transform: translateY(0);
-}
-
-section h2{
-margin-bottom:30px;
-font-size:32px;
-color:#ff9ff3;
-}
-
-.about-container{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:50px;
-flex-wrap:wrap;
-}
-
-.about-text{
-flex:1;
-line-height:1.8;
-}
-
-.about-image img{
-width:300px;
-border-radius:20px;
-box-shadow:0 0 20px rgba(255,121,198,0.6);
-}
-
-.skills-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:25px;
-}
-
-.card{
-background:#3e3e66;
-padding:25px;
-border-radius:15px;
-text-align:center;
-transition:0.4s;
-box-shadow:0 0 15px rgba(255,121,198,0.3);
-}
-
-.card:hover{
-transform:translateY(-8px) scale(1.03);
-background:#ff79c6;
-color:#1a1a2e;
-}
-
-/* Icons default color */
-.skill-icon{
-font-size:30px;
-margin-bottom:10px;
-color:#ffdd59;
-transition:0.3s;
-}
-
-/* Icons hover color */
-.card:hover .skill-icon{
-color:#fff;
-}
-
-/* Progress bars */
-.progress{
-width:100%;
-height:8px;
-background:#2d2d44;
-border-radius:10px;
-margin-top:12px;
-overflow:hidden;
-}
-
-.progress span{
-display:block;
-height:100%;
-background:#ff79c6;
-border-radius:10px;
-transition:0.5s;
-}
-
-.projects-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-gap:30px;
-}
-
-.project-card{
-background:#3e3e66;
-padding:20px;
-border-radius:15px;
-transition:0.4s;
-box-shadow:0 0 15px rgba(255,121,198,0.3);
-}
-
-.project-card:hover{
-transform:translateY(-10px) scale(1.02);
-background:#ff79c6;
-color:#1a1a2e;
-box-shadow:0 0 25px rgba(255,121,198,0.6);
-}
-
-.project-card img{
-width:100%;
-border-radius:10px;
-margin-bottom:15px;
-background:#fff;
-padding:5px;
-}
-
-.project-card h3{
-margin-bottom:10px;
-}
-
-.contact-icons{
-display:flex;
-justify-content:center;
-gap:30px;
-margin-top:20px;
-}
-
-.contact-icons a{
-width:70px;
-height:70px;
-background:#ff79c6;
-border-radius:50%;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:28px;
-color:#1a1a2e;
-transition:0.3s;
-}
-
-.contact-icons a:hover{
-transform:translateY(-8px);
-background:#ff6ec7;
-color:#fff;
-}
-
-footer{
-text-align:center;
-padding:20px;
-background:#1a1a2e;
-color:#f5c7e7;
-border-radius:10px;
-margin:20px;
-}
-
-@media(max-width:900px){
-.about-container{
-flex-direction:column;
-}
-.hero h1{
-font-size:36px;
-}
-nav{
-padding:20px;
-}
+@media (max-width: 600px) {
+  .nav-links { display: none; }
+  .hero-name { letter-spacing: -2px; }
+  .exp-item { grid-template-columns: 1fr; }
+  .exp-dot { display: none; }
 }
 </style>
 </head>
 <body>
 
-<header>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="bg-mesh"></div>
+<div class="noise"></div>
+
+<!-- NAV -->
 <nav>
-<h2 class="logo">Salma Elhwary</h2>
-<ul>
-<li><a href="#about">About</a></li>
-<li><a href="#education">Education</a></li>
-<li><a href="#skills">Skills</a></li>
-<li><a href="#projects">Projects</a></li>
-<li><a href="#contact">Contact</a></li>
-</ul>
+  <div class="logo">SE</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
 </nav>
 
-<div class="hero" id="hero">
-<h1>Hi, I'm <span>Salma</span></h1>
-<p><i class="fas fa-chart-line"></i> Junior Data Analyst</p>
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">
+      <span></span>
+      Available for opportunities
+    </div>
+    <h1 class="hero-name">
+      Salma
+      <span class="line2">Elhwary</span>
+    </h1>
+    <p class="hero-subtitle">
+      Data Analyst & IT Student · Turning raw data into decisions that actually matter — through dashboards, SQL, and a love for clean insights.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="/cdn-cgi/l/email-protection#daa9bbb6b7bbbfb6b2adbba8a3e9ea9abdb7bbb3b6f4b9b5b7" class="btn-secondary">Let's Talk</a>
+    </div>
+    <div class="hero-socials">
+      <a href="https://github.com/Salma-rar" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
+      <a href="https://www.linkedin.com/in/salma-elhwary" target="_blank" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+      <a href="/cdn-cgi/l/email-protection#87f4e6ebeae6e2ebeff0e6f5feb4b7c7e0eae6eeeba9e4e8ea" class="social-icon"><i class="fas fa-envelope"></i></a>
+    </div>
 
-<div class="hero-social">
-<a href="#"><i class="fab fa-linkedin"></i></a>
-<a href="https://github.com/Salma-rar"><i class="fab fa-github"></i></a>
-<a href="mailto:salmaelhwary30@gmail.com"><i class="fas fa-envelope"></i></a>
-</div>
+    <div class="hero-stats">
+      <div class="stat-box">
+        <div class="stat-num">3+</div>
+        <div class="stat-label">BI Projects</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">3rd</div>
+        <div class="stat-label">Year IT Student</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">DEPI</div>
+        <div class="stat-label">R4 Trainee</div>
+      </div>
+    </div>
+  </div>
 
-<a href="#projects" class="btn">View My Work</a>
-<a href="#" class="btn">Download CV</a>
-</div>
-</header>
-
-<section id="about">
-<h2><i class="fas fa-user"></i> About Me</h2>
-<div class="about-container">
-<div class="about-text">
-<p>
-Hi, I’m Salma,a freelance Data Analyst focused on delivering fast, high-quality, and affordable data solutions.  
-I transform raw data into actionable insights using Excel, SQL, and Power BI.  
-I specialize in data cleaning, interactive dashboards, and easy-to-read reports that help businesses make smarter decisions quickly.
-</p>
-</div>
-<div class="about-image">
-<img src="salma.jpeg" alt="Salma">
-</div>
-</div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll to explore
+  </div>
 </section>
 
-<section id="education">
-<h2><i class="fas fa-graduation-cap"></i> Education</h2>
-<div class="skills-grid">
-<div class="card">
-<i class="fas fa-university skill-icon"></i>
-<h4>Zagazig University</h4>
-<p>Faculty of Computers & Information, IT Department</p>
-<p><strong>2023 - 2027</strong> | GPA: Excellen</p>
-</div>
-
-<div class="card">
-<i class="fas fa-award skill-icon"></i>
-<h4>DEPI Program</h4>
-<p>Hands-on training in Data Analysis, Dashboards, and Reporting</p>
-<p>Practical experience with Power BI & SQL Projects</p>
-</div>
-</div>
+<!-- ABOUT -->
+<section id="about" class="section">
+  <div class="section-label">Who I am</div>
+  <h2 class="section-title">About Me</h2>
+  <div class="about-grid">
+    <div class="about-card">
+      <div style="display:flex;align-items:center;gap:24px;margin-bottom:28px;">
+        <img src="salma.jpeg" alt="Salma Elhwary"
+          style="width:90px;height:90px;border-radius:50%;object-fit:cover;border:3px solid rgba(176,111,255,0.4);box-shadow:0 0 24px rgba(176,111,255,0.25);"
+          onerror="this.style.display='none'">
+        <div>
+          <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:800;letter-spacing:-0.5px;">Salma Elhwary</div>
+          <div style="color:var(--muted);font-size:13px;margin-top:4px;">Data Analyst · IT Student · Egypt</div>
+        </div>
+      </div>
+      <p class="about-text">
+        I'm a third-year IT student at <strong>Zagazig University, Faculty of Computers & Information</strong>, 
+        with a deep passion for data analysis and business intelligence.<br><br>
+        I specialize in building interactive dashboards and end-to-end data pipelines — from messy raw data 
+        all the way to actionable visual insights. Currently a Round 4 intern at <strong>DEPI (Digital Egypt Pioneers Initiative)</strong>, 
+        where I work on real-world data analysis and reporting projects.<br><br>
+        Beyond data, I contribute to tech communities — I'm part of the UI/UX Core Team at <strong>GDG</strong> 
+        and served as an <strong>IEEE Ambassador</strong>, building teamwork and leadership skills along the way.
+      </p>
+    </div>
+    <div class="about-highlights">
+      <div class="highlight-item">
+        <div class="hi-icon purple"><i class="fas fa-university"></i></div>
+        <div>
+          <div class="hi-title">Zagazig University</div>
+          <div class="hi-sub">Faculty of Computers & Info · IT Dept · 2023–2027</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="hi-icon pink"><i class="fas fa-award"></i></div>
+        <div>
+          <div class="hi-title">DEPI Round 4 Trainee</div>
+          <div class="hi-sub">Data Analytics & Visualization · Power BI & SQL</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="hi-icon cyan"><i class="fas fa-users"></i></div>
+        <div>
+          <div class="hi-title">GDG UI/UX Core Team</div>
+          <div class="hi-sub">Google Developer Groups · 2025–Present</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="hi-icon purple"><i class="fas fa-broadcast-tower"></i></div>
+        <div>
+          <div class="hi-title">IEEE Ambassador</div>
+          <div class="hi-sub">Community Engagement & Knowledge Sharing · 2023–2024</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="hi-icon pink"><i class="fas fa-film"></i></div>
+        <div>
+          <div class="hi-title">ICPC Media Team</div>
+          <div class="hi-sub">Video Editing & Social Media Management · 2025</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section id="skills">
-<h2><i class="fas fa-code"></i> Skills</h2>
-<div class="skills-grid">
-
-<div class="card">
-<i class="fas fa-file-excel skill-icon"></i>
-<h4>Excel</h4>
-<div class="progress"><span style="width:90%"></span></div>
-</div>
-
-<div class="card">
-<i class="fas fa-database skill-icon"></i>
-<h4>SQL</h4>
-<div class="progress"><span style="width:85%"></span></div>
-</div>
-
-<div class="card">
-<i class="fas fa-chart-bar skill-icon"></i>
-<h4>Power BI</h4>
-<div class="progress"><span style="width:88%"></span></div>
-</div>
-
-<div class="card">
-<i class="fas fa-broom skill-icon"></i>
-<h4>Data Cleaning</h4>
-<div class="progress"><span style="width:92%"></span></div>
-</div>
-
-<div class="card">
-<i class="fas fa-table skill-icon"></i>
-<h4>Dashboards</h4>
-<div class="progress"><span style="width:90%"></span></div>
-</div>
-
-<div class="card">
-<i class="fas fa-chart-pie skill-icon"></i>
-<h4>Data Visualization</h4>
-<div class="progress"><span style="width:87%"></span></div>
-</div>
-
-</div>
+<!-- SKILLS -->
+<section id="skills" class="section">
+  <div class="section-label">What I work with</div>
+  <h2 class="section-title">Technical Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-header">
+        <div class="skill-name"><i class="fas fa-chart-bar"></i> Power BI</div>
+        <div class="skill-pct">90%</div>
+      </div>
+      <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-header">
+        <div class="skill-name"><i class="fas fa-file-excel"></i> Excel</div>
+        <div class="skill-pct">92%</div>
+      </div>
+      <div class="skill-bar"><div class="skill-fill" data-width="92"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-header">
+        <div class="skill-name"><i class="fas fa-database"></i> SQL</div>
+        <div class="skill-pct">80%</div>
+      </div>
+      <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-header">
+        <div class="skill-name"><i class="fas fa-broom"></i> Data Cleaning</div>
+        <div class="skill-pct">93%</div>
+      </div>
+      <div class="skill-bar"><div class="skill-fill" data-width="93"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-header">
+        <div class="skill-name"><i class="fas fa-project-diagram"></i> Data Modeling</div>
+        <div class="skill-pct">82%</div>
+      </div>
+      <div class="skill-bar"><div class="skill-fill" data-width="82"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-header">
+        <div class="skill-name"><i class="fab fa-python"></i> Python (Basics)</div>
+        <div class="skill-pct">65%</div>
+      </div>
+      <div class="skill-bar"><div class="skill-fill" data-width="65"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-header">
+        <div class="skill-name"><i class="fas fa-chart-pie"></i> Data Visualization</div>
+        <div class="skill-pct">88%</div>
+      </div>
+      <div class="skill-bar"><div class="skill-fill" data-width="88"></div></div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-header">
+        <div class="skill-name"><i class="fas fa-lightbulb"></i> Problem Solving</div>
+        <div class="skill-pct">87%</div>
+      </div>
+      <div class="skill-bar"><div class="skill-fill" data-width="87"></div></div>
+    </div>
+  </div>
 </section>
 
-<section id="projects">
-<h2><i class="fas fa-folder-open"></i> Projects</h2>
-<div class="projects-grid">
+<!-- PROJECTS -->
+<section id="projects" class="section">
+  <div class="section-label">What I've built</div>
+  <h2 class="section-title">Projects</h2>
+  <div class="projects-grid">
 
-<div class="project-card">
-<img src="employee-dashboard.png" alt="Employee Dashboard">
-<h3>Employee Workforce Dashboard</h3>
-<p>Power BI dashboard visualizing workforce distribution, salaries, and departmental headcount.  
-Includes dynamic filters and drill-through reports for detailed insights.</p>
-</div>
+    <!-- FEATURED: Sales Dashboard -->
+    <div class="project-card featured">
+      <div class="project-img">
+        <img src="sales-dashboard.png" alt="Power BI Sales Dashboard" onerror="this.parentElement.innerHTML='<div class=\'project-img-placeholder\'><i class=\'fas fa-chart-line\'></i></div>'">
+      </div>
+      <div class="project-body">
+        <div class="project-tag">⭐ Featured Project</div>
+        <div class="project-title">Power BI Sales Dashboard</div>
+        <p class="project-desc">
+          A fully interactive business intelligence dashboard built to analyze sales performance across regions, categories, and time periods. 
+          Developed a complete data workflow starting from raw, uncleaned data — through transformation, star schema modeling with fact and dimension tables — 
+          all the way to compelling visual reports.<br><br>
+          The dashboard tracks <strong>1K orders, $33.93M total revenue, 86K units sold</strong>, and $915K in freight. 
+          Includes dynamic maps showing sales by territory, KPI comparisons by product category (Bikes, Components, Clothing), 
+          order status breakdowns, and year-over-year trend analysis to support data-driven decision-making.
+        </p>
+        <div class="project-tools">
+          <span class="tool-pill">Power BI</span>
+          <span class="tool-pill">DAX</span>
+          <span class="tool-pill">Star Schema</span>
+          <span class="tool-pill">Data Modeling</span>
+          <span class="tool-pill">SQL</span>
+        </div>
+        <a href="https://github.com/Salma-rar" target="_blank" class="project-link">View on GitHub <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
 
-<div class="project-card">
-<img src="sales-dashboard.png" alt="Sales Dashboard">
-<h3>Sales Dashboard</h3>
-<p>Interactive sales tracker showing monthly revenue trends, top-selling products, and KPIs.  
-Supports YoY growth comparison and regional analysis for strategic planning.</p>
-</div>
+    <!-- Employee Dashboard -->
+    <div class="project-card">
+      <div class="project-img">
+        <img src="employee-dashboard.png" alt="Employee Dashboard" onerror="this.parentElement.innerHTML='<div class=\'project-img-placeholder\'><i class=\'fas fa-users-cog\'></i></div>'">
+      </div>
+      <div class="project-body">
+        <div class="project-tag">HR Analytics</div>
+        <div class="project-title">Employee Workforce Dashboard</div>
+        <p class="project-desc">
+          A Power BI dashboard that gives HR teams a complete view of workforce health. Tracks employee distribution across departments, 
+          salary bands, headcount trends, and performance metrics. Performed full data cleaning and preprocessing to ensure accuracy 
+          before modeling. Features drill-through pages for deep dives into individual department data.
+        </p>
+        <div class="project-tools">
+          <span class="tool-pill">Power BI</span>
+          <span class="tool-pill">Excel</span>
+          <span class="tool-pill">Data Cleaning</span>
+        </div>
+        <a href="https://github.com/Salma-rar" target="_blank" class="project-link">View on GitHub <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
 
-<div class="project-card">
-<img src="hr-dashboard.png" alt="HR Dashboard">
-<h3>HR Analytics Dashboard</h3>
-<p>HR dashboard tracking employee performance, overtime, and retention metrics.  
-Automated insights help managers make informed decisions efficiently.</p>
-</div>
+    <!-- HR Analytics -->
+    <div class="project-card">
+      <div class="project-img">
+        <img src="hr-dashboard.png" alt="HR Analytics Dashboard" onerror="this.parentElement.innerHTML='<div class=\'project-img-placeholder\'><i class=\'fas fa-chart-area\'></i></div>'">
+      </div>
+      <div class="project-body">
+        <div class="project-tag">People Analytics</div>
+        <div class="project-title">HR Analytics Dashboard</div>
+        <p class="project-desc">
+          An advanced HR analytics solution focused on employee performance, overtime patterns, retention risk, and workforce planning. 
+          Automated visual insights help managers identify at-risk employees and make proactive decisions. 
+          Built with real-world HR data, applying best practices in data modeling and storytelling.
+        </p>
+        <div class="project-tools">
+          <span class="tool-pill">Power BI</span>
+          <span class="tool-pill">DAX</span>
+          <span class="tool-pill">Data Visualization</span>
+        </div>
+        <a href="https://github.com/Salma-rar" target="_blank" class="project-link">View on GitHub <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
 
-</div>
+  </div>
 </section>
 
-<section id="contact">
-<h2><i class="fas fa-paper-plane"></i> Contact Me</h2>
-<div class="contact-icons">
-<a href="mailto:salmaelhwary30@gmail.com"><i class="fas fa-envelope"></i></a>
-<a href="#"><i class="fab fa-linkedin"></i></a>
-<a href="https://github.com/Salma-rar"><i class="fab fa-github"></i></a>
-</div>
+<!-- EXPERIENCE -->
+<section id="experience" class="section">
+  <div class="section-label">My journey</div>
+  <h2 class="section-title">Experience & Activities</h2>
+  <div class="exp-timeline">
+    <div class="exp-item">
+      <div class="exp-dot"></div>
+      <div>
+        <div class="exp-role">Data Analytics Trainee (Round 4)</div>
+        <div class="exp-org">DEPI — Digital Egypt Pioneers Initiative</div>
+        <div class="exp-date">2024 – Present</div>
+        <div class="exp-desc">Hands-on training in data analysis, Power BI dashboard development, and SQL-based reporting. Working with real-world datasets to build end-to-end analytical solutions.</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-dot"></div>
+      <div>
+        <div class="exp-role">UI/UX Core Team Member</div>
+        <div class="exp-org">GDG — Google Developer Groups</div>
+        <div class="exp-date">2025 – Present</div>
+        <div class="exp-desc">Delivering UI/UX sessions, supporting members during learning activities, and collaborating with team leads to explain design concepts and guide participants through hands-on workshops.</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-dot"></div>
+      <div>
+        <div class="exp-role">Media Team Member</div>
+        <div class="exp-org">ICPC — International Collegiate Programming Contest</div>
+        <div class="exp-date">2025</div>
+        <div class="exp-desc">Edited promotional and event-related videos for programming contests. Managed and maintained community social media pages to drive engagement and spread awareness.</div>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-dot"></div>
+      <div>
+        <div class="exp-role">Ambassador</div>
+        <div class="exp-org">IEEE Student Branch</div>
+        <div class="exp-date">2023 – 2024</div>
+        <div class="exp-desc">Participated in the Ambassador Program, contributing to community engagement and knowledge sharing. Organized activities, supported peers, and developed strong leadership and communication skills.</div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<!-- CONTACT -->
+<section id="contact" class="section">
+  <div class="section-label">Get in touch</div>
+  <h2 class="section-title">Contact</h2>
+  <div class="contact-grid">
+    <div class="contact-card contact-big">
+      <div class="contact-headline">Let's work together</div>
+      <p class="contact-sub">Open to internships, data projects, and collaborative opportunities.</p>
+      <div class="contact-links">
+        <a href="/cdn-cgi/l/email-protection#cab9aba6a7abafa6a2bdabb8b3f9fa8aada7aba3a6e4a9a5a7" class="contact-btn">
+          <i class="fas fa-envelope"></i> <span class="__cf_email__" data-cfemail="2152404d4c40444d4956405358121161464c40484d0f424e4c">[email&#160;protected]</span>
+        </a>
+        <a href="https://github.com/Salma-rar" target="_blank" class="contact-btn">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="https://www.linkedin.com/in/salma-elhwary" target="_blank" class="contact-btn">
+          <i class="fab fa-linkedin-in"></i> LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-<p>© 2026 Salma Elhwary | All Rights Reserved</p>
+  <div class="footer-logo">SE</div>
+  <div>© 2026 Salma Elhwary · Data Analyst</div>
+  <div>Built with ♥ in Egypt</div>
 </footer>
 
-<script>
-const sections = document.querySelectorAll('section, .hero');
-const observer = new IntersectionObserver((entries)=>{
-entries.forEach(entry=>{
-if(entry.isIntersecting){
-entry.target.classList.add('show');
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animCursor() {
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+  requestAnimationFrame(animCursor);
 }
+animCursor();
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2)'; ring.style.opacity = '0.2'; });
+  el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.opacity = '0.5'; });
 });
-},{threshold:0.2});
-sections.forEach(section=>{
-observer.observe(section);
-});
-</script>
 
+// Intersection observer for sections
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      entry.target.querySelectorAll('.skill-fill').forEach(bar => {
+        bar.style.width = bar.dataset.width + '%';
+      });
+    }
+  });
+}, { threshold: 0.15 });
+document.querySelectorAll('.section').forEach(s => observer.observe(s));
+</script>
 </body>
 </html>
